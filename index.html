@@ -946,7 +946,7 @@ $('fpay').onsubmit=async function(e){e.preventDefault();var ph=$('pn').value,f=$
     await call('/rest/v1/rpc/submit_payment_proof',{m:'POST',b:{p_method:$('pm').value,p_phone:'+225'+ph,p_proof:path}});$('fpay').reset();toast('Reçu ! Ton abonnement sera activé après vérification.');loadPay()}
   catch(x){toast(/too_many_pending/i.test(x.message||'')?'Tu as déjà des paiements en cours de vérification. Patiente un peu.':msg(x))}};
 /* Administration */
-var AT='subs',LO=optGroups(true);
+var AT='subs',LO=optGroups(true),ALV='';
 function esc(t){return String(t==null?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function sl(t){return t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
 async function admView(){var c=$('atabs'),w=$('abody'),n=0;
@@ -984,9 +984,11 @@ async function aSubs(){var R=await call('/rest/v1/subjects?select=*&order=level.
         toast('Envoi '+(i+1)+' sur '+F.length+'…');await call('/storage/v1/object/sujets/'+path,{m:'POST',raw:f,ct:f.type||'application/octet-stream'});
         await call('/rest/v1/subjects',{m:'POST',prefer:'return=minimal',b:{level:$('x1').value,subject:$('x2').value.trim(),year:+$('x3').value,kind:$('x4').value,file_path:path,part:i+1,size_kb:Math.round(f.size/1024)}})}
       toast('Sujet ajouté.');admView()}catch(x){toast(msg(x))}};
-  rows('lst',R,function(r){return '<b>'+esc(r.subject)+'</b><small>'+esc(r.level)+' · '+ay(r.year)+' · '+(r.kind==='corrige'?'corrigé':'sujet')+' · page '+(r.part||1)+'</small>'},
+  function drawS(){ALV=$('x1').value;if(!R.some(function(r){return r.level===ALV})){var l=$('lst');l.textContent='';l.appendChild(h('div','box','Aucun fichier en ligne pour ce niveau.'));return}
+  rows('lst',R.filter(function(r){return r.level===ALV}),function(r){return '<b>'+esc(r.subject)+'</b><small>'+esc(r.level)+' · '+ay(r.year)+' · '+(r.kind==='corrige'?'corrigé':'sujet')+' · page '+(r.part||1)+'</small>'},
     async function(r){await call('/rest/v1/subjects?id=eq.'+r.id,{m:'DELETE'});try{await call('/storage/v1/object/sujets/'+r.file_path,{m:'DELETE'})}catch(e){}},
     function(r){var m=prompt('Matière',r.subject);if(m===null)return false;var y=prompt('Année de fin (2024 pour 2023-2024)',r.year);if(y===null)return false;return call('/rest/v1/subjects?id=eq.'+r.id,{m:'PATCH',prefer:'return=minimal',b:{subject:m.trim(),year:+y}})})}
+  if(ALV)$('x1').value=ALV;if(!$('x1').value)$('x1').selectedIndex=0;$('x1').onchange=drawS;drawS()}
 async function aAnn(){var R=await call('/rest/v1/announcements?select=*&order=created_at.desc&limit=50'),w=$('abody');
   w.innerHTML='<form id="f2"><label>Titre</label><input id="y1" required><label>Texte</label><textarea id="y2" required></textarea><label>Pour quel niveau ?</label><select id="y3"><option value="">Tous les niveaux</option>'+LO+'</select><button class="btn full">Publier <span>↗</span></button></form><h3>Déjà publiées</h3><div id="lst"></div>';
   $('f2').onsubmit=async function(e){e.preventDefault();try{await call('/rest/v1/announcements',{m:'POST',prefer:'return=minimal',b:{title:$('y1').value.trim(),body:$('y2').value.trim(),level:$('y3').value||null}});toast('Annonce publiée.');admView()}catch(x){toast(msg(x))}};
