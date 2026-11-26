@@ -243,6 +243,10 @@ h1{animation:up .9s .1s backwards}
 .sw{display:flex;align-items:flex-start;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin:0 -2px}
 .sw::-webkit-scrollbar{display:none}
 .pn{flex:0 0 100%;min-width:0;scroll-snap-align:start;scroll-snap-stop:always;padding:0 2px;box-sizing:border-box}
+#wel{position:fixed;inset:0;z-index:8100;background:rgba(5,15,46,.85);display:flex;align-items:flex-end;backdrop-filter:blur(3px)}
+#wel .ob ul{list-style:none;padding:0;margin:10px 0}#wel .ob li{display:flex;gap:12px;margin:10px 0;align-items:flex-start}#wel .ob li i{font-style:normal;font-size:22px}#wel .ob li span{display:block;font-size:14px;opacity:.8}
+.priv{max-height:190px;overflow:auto;border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:4px 14px;font-size:14px;line-height:1.5}.priv p{margin:10px 0}
+.chk{display:flex;gap:10px;align-items:center;margin:14px 0}.chk input{width:22px;height:22px;flex:none}
 #onb{position:fixed;inset:0;z-index:8000;background:rgba(5,15,46,.72);display:flex;align-items:flex-end;backdrop-filter:blur(3px)}
 #onb[hidden]{display:none}
 .ob{width:100%;max-height:92%;overflow:auto;background:var(--bg);color:var(--text);border-radius:30px 30px 0 0;padding:26px 22px calc(26px + env(safe-area-inset-bottom,0px));animation:slideup .45s cubic-bezier(.2,1.1,.3,1)}
@@ -391,7 +395,7 @@ sp.addEventListener('click',end);setTimeout(end,4200)})();
   <form id="fn" hidden>
     <h3 style="margin:0 0 6px">Nouveau mot de passe</h3><p class="note">Choisis ton nouveau mot de passe, puis confirme-le.</p>
     <label for="np">Nouveau mot de passe (8 caractères minimum)</label><div class="pw"><input id="np" type="password" autocomplete="new-password" minlength="8" required><button type="button" class="eye" data-eye="np">Voir</button></div>
-    <label for="np2">Confirme ton mot de passe</label><div class="pw"><input id="np2" type="password" autocomplete="new-password" minlength="8" required><button type="button" class="eye" data-eye="np2">Voir</button></div>
+    <label for="nr2">Confirme ton mot de passe</label><div class="pw"><input id="nr2" type="password" autocomplete="new-password" minlength="8" required><button type="button" class="eye" data-eye="nr2">Voir</button></div>
     <button class="btn full" type="submit">Enregistrer <span>↗</span></button>
   </form>
   <form id="frec" hidden>
@@ -452,7 +456,7 @@ sp.addEventListener('click',end);setTimeout(end,4200)})();
     <h2>Nouveautés<span>.</span></h2>
     <div id="nl"></div>
     <button class="btn full alt" id="nr" type="button">Vider la liste</button>
-    <p class="note" id="np" hidden>Les notifications sont bloquées pour cette application. Tu peux les autoriser dans les réglages du téléphone (paramètres du site, notifications).</p>
+    <p class="note" id="npn" hidden>Les notifications sont bloquées pour cette application. Tu peux les autoriser dans les réglages du téléphone (paramètres du site, notifications).</p>
   </div>
 
   <div class="v" id="v_prop" hidden>
@@ -479,6 +483,7 @@ sp.addEventListener('click',end);setTimeout(end,4200)})();
       <button class="btn full" type="submit">Enregistrer <span>↗</span></button>
     </form>
     <div id="brw" hidden><h3>Ta filière</h3><p class="note">Ton compte a été créé avant les filières. Choisis la tienne pour voir les sujets qui te concernent.</p><select id="br"></select><button class="btn full" id="brb" type="button" style="margin-top:12px">Enregistrer ma filière <span>↗</span></button></div>
+    <button class="sm" id="privb" type="button" style="margin-top:14px">Clause de confidentialité</button>
     <h3>Mot de passe</h3>
     <form id="fp">
       <label for="np2">Nouveau mot de passe (8 caractères minimum)</label><div class="pw"><input id="np2" type="password" autocomplete="new-password" minlength="8" required><button type="button" class="eye" data-eye="np2">Voir</button></div>
@@ -573,6 +578,28 @@ sp.addEventListener('click',end);setTimeout(end,4200)})();
   <button type="button" data-t="help"><span class="ic"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span><b>Aide</b></button>
   <button type="button" data-t="me"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></span><b>Compte</b></button>
 </nav>
+<div id="wel" hidden><div class="ob">
+  <h3 id="welt">Bienvenue</h3>
+  <p class="note">Merci de rejoindre l’application <b>UFR SEG sujets</b>. Tu y trouves :</p>
+  <ul>
+    <li><i>📚</i><div><b>Les anciens sujets de ton niveau</b><span>3 sujets à lire gratuitement, puis un abonnement de 1 000 F par an pour tout lire et tout télécharger.</span></div></li>
+    <li><i>📢</i><div><b>Annonces et calendrier des examens</b><span>Disponibles même sans internet.</span></div></li>
+    <li><i>📞</i><div><b>Cours de renforcement</b><span>Des contacts pour t’aider dans ta matière.</span></div></li>
+  </ul>
+  <h4 style="margin:14px 0 6px">Clause de confidentialité</h4>
+  <div class="priv">
+    <p><b>Données que nous gardons.</b> Ton nom, ton email, ton numéro de téléphone, ton niveau, tes avis, les sujets que tu proposes, les sujets gratuits que tu as ouverts et, si tu t’abonnes, la capture d’écran de ton paiement.</p>
+    <p><b>Pourquoi.</b> Uniquement pour gérer ton compte, ton accès aux sujets, ton abonnement et t’envoyer les annonces de l’application.</p>
+    <p><b>Mot de passe.</b> Il est protégé. Personne, pas même l’administrateur, ne peut le lire.</p>
+    <p><b>Qui peut voir tes données.</b> L’administrateur de l’application (nom, email, téléphone, niveau, paiements). Les autres étudiants ne voient jamais tes informations : seul ton prénom apparaît à côté d’un avis que tu publies.</p>
+    <p><b>Partage.</b> Tes données ne sont ni vendues ni données à des tiers. Elles sont hébergées chez des prestataires techniques (hébergement, base de données, envoi d’emails) qui servent seulement à faire fonctionner l’application.</p>
+    <p><b>Tes droits.</b> Tu peux demander à corriger ou à supprimer ton compte et tes données en contactant le responsable depuis l’onglet « Aide ».</p>
+    <p><b>Usage des sujets.</b> Les sujets sont réservés à ton usage personnel. Ne partage pas ton compte.</p>
+  </div>
+  <label class="chk" id="welck"><input type="checkbox" id="welok"><span>J’ai lu et j’accepte la clause de confidentialité.</span></label>
+  <button class="btn full" id="welgo" type="button" disabled>Commencer <span>↗</span></button>
+  <button class="lnk" id="welx" type="button" hidden>Fermer</button>
+</div></div>
 <div id="onb" hidden><div class="ob">
   <h3>Autorisations</h3>
   <p class="note">Pour fonctionner comme une vraie application, elle a besoin de ton accord :</p>
@@ -680,8 +707,8 @@ $('qv').onclick=async function(){say('');var c=$('qc').value.replace(/\s/g,'');i
 $('qr').onclick=async function(){say('');try{await call('/auth/v1/recover',{m:'POST',auth:false,b:{email:QE}});say('Nouveau code envoyé.')}catch(x){say(msg(x))}};
 function showCode(m){$('tb').hidden=true;$('fl').hidden=true;$('fs').hidden=true;$('fn').hidden=true;$('fc').hidden=false;$('fcm').textContent=m;say('')}
 function showReset(){$('fc').hidden=true;$('tb').hidden=true;$('fl').hidden=true;$('fs').hidden=true;$('fn').hidden=false;say('')}
-$('fn').onsubmit=async function(e){e.preventDefault();var pw=$('np').value;if(pw.length<8)return say('Mot de passe : 8 caractères minimum.');if(pw!==$('np2').value)return say('Les deux mots de passe ne sont pas identiques.');
-  try{await call('/auth/v1/user',{m:'PUT',b:{password:pw}});$('np').value='';$('np2').value='';toast('Mot de passe modifié.');await enter()}catch(x){say(msg(x))}};
+$('fn').onsubmit=async function(e){e.preventDefault();var pw=$('np').value;if(pw.length<8)return say('Mot de passe : 8 caractères minimum.');if(pw!==$('nr2').value)return say('Les deux mots de passe ne sont pas identiques.');
+  try{await call('/auth/v1/user',{m:'PUT',b:{password:pw}});$('np').value='';$('nr2').value='';toast('Mot de passe modifié.');await enter()}catch(x){say(msg(x))}};
 $('st').oninput=function(){this.value=this.value.replace(/\D/g,'')};
 $('fs').onsubmit=async function(e){e.preventDefault();say('');var pw=$('sp').value,loc=$('se').value.trim().toLowerCase().split('@')[0],ph=$('st').value.replace(/\D/g,'');
   if(!/^[a-z0-9.]{6,30}$/.test(loc))return say('Écris seulement le début de ton adresse Gmail, sans @gmail.com (6 caractères minimum).');
@@ -713,7 +740,7 @@ $('rs').onclick=async function(){say('');try{await call('/auth/v1/resend',{m:'PO
 var OFF=false,saved={};
 function setOff(){$('v_home').classList.toggle('off',OFF);$('offn').hidden=!OFF}
 async function enter(){
-  try{await enterOn();OFF=false;setOff();prefetchInfo();drawBell();showOnb();regPer();if(/[?&]paid=1/.test(location.search)){try{history.replaceState(null,'',location.pathname)}catch(e){}setTimeout(function(){view('pay');checkPaid()},400)}if(P&&(P.level==='Licence 3'||P.level==='Master'))toast('Choisis ta filière dans Mon compte pour voir les sujets qui te concernent.');if($('onb').hidden)checkNews()}
+  try{await enterOn();OFF=false;setOff();prefetchInfo();drawBell();showWel();regPer();if(/[?&]paid=1/.test(location.search)){try{history.replaceState(null,'',location.pathname)}catch(e){}setTimeout(function(){view('pay');checkPaid()},400)}if(P&&(P.level==='Licence 3'||P.level==='Master'))toast('Choisis ta filière dans Mon compte pour voir les sujets qui te concernent.');if($('onb').hidden)checkNews()}
   catch(x){var c=ls('ufr_p');
     if(S&&c&&c.id===S.uid&&(!navigator.onLine||/fetch|network|load failed/i.test(x.message||''))){P=c.p;CFG=ls('ufr_cfg')||{};OFF=true;setOff();$('hi').textContent='Bonjour '+(P.full_name||'').split(' ')[0];$('admcard').hidden=true;$('lo').textContent='Déconnexion';view('home');show('dash');regOne();toast('Pas de connexion : tes fichiers enregistrés restent disponibles.')}
     else throw x}}
@@ -817,7 +844,7 @@ function news(){return ls('ufr_news')||[]}
 function addNews(it){var L=news();if(L.some(function(x){return x.k===it.k}))return false;it.u=1;it.d=it.d||new Date().toISOString();L.unshift(it);ls('ufr_news',L.slice(0,40));return true}
 function drawBell(){var n=news().filter(function(x){return x.u}).length,b=$('bc');b.hidden=!n;b.textContent=n}
 var NI={ann:'📢',sub:'📄',exam:'📅',rap:'⏰'};
-function drawNews(){var w=$('nl'),L=news();w.textContent='';$('np').hidden=!(window.Notification&&Notification.permission==='denied');
+function drawNews(){var w=$('nl'),L=news();w.textContent='';$('npn').hidden=!(window.Notification&&Notification.permission==='denied');
   if(!L.length)w.appendChild(h('div','box','Rien de nouveau pour le moment.'));
   L.forEach(function(x){var b=h('div','box');if(x.u)b.style.borderLeft='4px solid #ffd21f';b.appendChild(h('b',null,(NI[x.t]||'')+' '+x.x));b.appendChild(h('small',null,fd(x.d)));w.appendChild(b)});
   L.forEach(function(x){x.u=0});ls('ufr_news',L);drawBell()}
@@ -838,6 +865,13 @@ function regOne(){try{navigator.serviceWorker.ready.then(function(r){if(r.sync)r
 function regPer(){try{navigator.serviceWorker.ready.then(function(r){if(r.periodicSync&&navigator.permissions)navigator.permissions.query({name:'periodic-background-sync'}).then(function(q){if(q.state==='granted')r.periodicSync.register('ufr-news',{minInterval:21600000}).catch(function(){})}).catch(function(){})}).catch(function(){})}catch(e){}}
 window.addEventListener('offline',regOne);
 document.addEventListener('visibilitychange',function(){if(document.hidden&&!navigator.onLine)regOne()});
+function showWel(read){if(!S)return;var n=(P&&P.full_name||'').split(' ')[0];$('welt').textContent=n?'Bienvenue, '+n+' !':'Bienvenue !';
+  if(read){$('welck').hidden=true;$('welgo').hidden=true;$('welx').hidden=false}else{if(ls('ufr_wel_'+S.uid))return showOnb();$('welck').hidden=false;$('welgo').hidden=false;$('welx').hidden=true;$('welok').checked=false;$('welgo').disabled=true}
+  $('wel').hidden=false;try{$('wel').querySelector('.ob').scrollTop=0}catch(e){}}
+$('welok').onchange=function(){$('welgo').disabled=!this.checked};
+$('welgo').onclick=function(){if(!$('welok').checked)return;if(S)ls('ufr_wel_'+S.uid,Date.now());$('wel').hidden=true;showOnb()};
+$('privb').onclick=function(){showWel(true)};
+$('welx').onclick=function(){$('wel').hidden=true};
 function showOnb(){if(S&&!ls('ufr_onb_'+S.uid))$('onb').hidden=false}
 async function doOnb(){try{if(window.Notification&&Notification.permission==='default')await Notification.requestPermission()}catch(e){}
   try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist()}catch(e){}
