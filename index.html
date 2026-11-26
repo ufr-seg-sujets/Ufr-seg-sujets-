@@ -389,9 +389,23 @@ sp.addEventListener('click',end);setTimeout(end,4200)})();
     <button type="button" class="lnk" id="fg">Mot de passe oublié ?</button>
   </form>
   <form id="fn" hidden>
-    <p class="note">Choisis ton nouveau mot de passe.</p>
+    <h3 style="margin:0 0 6px">Nouveau mot de passe</h3><p class="note">Choisis ton nouveau mot de passe, puis confirme-le.</p>
     <label for="np">Nouveau mot de passe (8 caractères minimum)</label><div class="pw"><input id="np" type="password" autocomplete="new-password" minlength="8" required><button type="button" class="eye" data-eye="np">Voir</button></div>
+    <label for="np2">Confirme ton mot de passe</label><div class="pw"><input id="np2" type="password" autocomplete="new-password" minlength="8" required><button type="button" class="eye" data-eye="np2">Voir</button></div>
     <button class="btn full" type="submit">Enregistrer <span>↗</span></button>
+  </form>
+  <form id="frec" hidden>
+    <h3 style="margin:0 0 6px">Récupération de compte</h3>
+    <p class="note" id="fqm">Écris ton email ou ton numéro. Nous t’envoyons un code temporaire par email.</p>
+    <label for="qe">Email ou numéro de téléphone</label><input id="qe" type="text" inputmode="email" autocapitalize="none" autocomplete="username" required>
+    <button class="btn full" type="submit">Envoyer le code <span>↗</span></button>
+    <div id="qs2" hidden>
+      <button type="button" class="btn full alt" id="qp" style="margin-top:14px">Coller le code copié <span>⧉</span></button>
+      <label for="qc">Code reçu par email</label><input id="qc" inputmode="numeric" autocomplete="one-time-code" maxlength="10">
+      <button type="button" class="btn full" id="qv">Valider le code <span>↗</span></button>
+      <button type="button" class="lnk" id="qr">Renvoyer le code</button>
+    </div>
+    <button type="button" class="lnk" id="qb">← Retour à la connexion</button>
   </form>
   <form id="fs" hidden>
     <label for="sn">Nom complet</label><input id="sn" autocomplete="name" required>
@@ -424,7 +438,7 @@ sp.addEventListener('click',end);setTimeout(end,4200)})();
     <div class="cards">
       <button class="sc c1" data-v="subs"><div><h3>Anciens sujets</h3><p>Par niveau, matière et année.</p></div><svg viewBox="0 0 64 64" fill="none" stroke="#0a1740" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="12" width="32" height="40" rx="3" fill="#cfe2ff"/><rect x="16" y="8" width="32" height="40" rx="3" fill="#fff"/><path d="M23 18h18M23 25h18M23 32h12"/><path d="M40 52l14-14 5 5-14 14-7 2z" fill="#ffd21f"/></svg><span class="go">↗</span></button>
       <button class="sc c2" data-v="info"><div><h3>Infos de l’UFR</h3><p>Présentation, annonces, examens.</p></div><svg viewBox="0 0 64 64" fill="none" stroke="#0a1740" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M8 28L32 12l24 16z" fill="#fff"/><path d="M14 28v22M26 28v22M38 28v22M50 28v22"/><path d="M8 52h48"/><path d="M32 12V5"/><path d="M32 5h9l-3 3 3 3h-9" fill="#ffd21f"/></svg><span class="go">↗</span></button>
-      <button class="sc c3" data-v="help"><div><h3>Cours de renforcement</h3><p>Un numéro en cas de besoin d’aide.</p></div><svg viewBox="0 0 64 64" fill="none" stroke="#0a1740" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="12" width="40" height="30" rx="3" fill="#fff"/><path d="M12 36l9-9 7 6 12-14"/><path d="M33 19h7v7"/><path d="M26 42v10M18 52h16"/><circle cx="50" cy="16" r="8" fill="#fff"/><path d="M47 24h6M48 28h4"/></svg><span class="go">↗</span></button>
+      <button class="sc c3" data-v="help"><div><h3>Cours de renforcement</h3><p>Contacte une personne qui t’aide dans ta matière.</p></div><svg viewBox="0 0 64 64" fill="none" stroke="#0a1740" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="12" width="40" height="30" rx="3" fill="#fff"/><path d="M12 36l9-9 7 6 12-14"/><path d="M33 19h7v7"/><path d="M26 42v10M18 52h16"/><circle cx="50" cy="16" r="8" fill="#fff"/><path d="M47 24h6M48 28h4"/></svg><span class="go">↗</span></button>
       <button class="sc c1" data-v="avis"><div><h3>Donner mon avis</h3><p>Il sera relu avant d’être publié.</p></div><svg viewBox="0 0 64 64" fill="none" stroke="#0a1740" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M10 12h44v30H30l-12 10V42h-8z" fill="#fff"/><path d="M32 18l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" fill="#ffd21f"/></svg><span class="go">↗</span></button>
     <button class="sc c1" data-v="prop"><div><h3>Proposer un sujet</h3><p>Envoie un PDF ou des photos, validés avant publication.</p></div><span class="go">↗</span></button>
       <button class="sc c3" data-v="pay"><div><h3>Abonnement</h3><p>1 000 F par an : tous les sujets + téléchargement.</p></div><span class="go">↗</span></button>
@@ -491,7 +505,7 @@ sp.addEventListener('click',end);setTimeout(end,4200)})();
     <h3 id="autoh">Payer maintenant</h3>
     <div class="box" id="autob"><p>Paiement sécurisé par Wave, Orange Money, MTN Money ou Moov Money. Montant : <b>1 000 F</b>. Ton abonnement s’active automatiquement dès que le paiement est confirmé, puis tu accèdes aux PDF et au téléchargement.</p><button class="btn full" id="pfeda" type="button" style="margin-top:12px">Payer 1 000 F <span>↗</span></button><button class="sm" id="pchk" type="button" style="margin-top:10px">J’ai payé : vérifier</button></div>
     <h3 id="manh">Ou paiement manuel</h3>
-    <div class="box"><p id="pinfo"></p><a class="btn alt" id="pwa" target="_blank" rel="noopener" style="margin-top:12px" hidden>Envoyer la preuve sur WhatsApp</a></div>
+    <div class="box"><div id="pnums"></div><p id="pinfo"></p><a class="btn alt" id="pwa" target="_blank" rel="noopener" style="margin-top:12px" hidden>Envoyer la preuve sur WhatsApp</a></div>
     <h3>J’ai payé</h3>
     <form id="fpay">
       <label for="pm">Moyen de paiement</label><select id="pm"><option>Wave</option><option>Orange Money</option><option>MTN Money</option><option>Moov Money</option></select>
@@ -637,7 +651,7 @@ async function call0(path,o){o=o||{};var hd={apikey:K,'Content-Type':'applicatio
   var j2=null;try{j2=await r.json()}catch(e){}
   if(!r.ok){var e=new Error((j2&&(j2.msg||j2.error_description||j2.message))||('Erreur '+r.status));e.status=r.status;e.code=j2&&(j2.error_code||j2.code);throw e}
   return j2}
-function tab(l){$('fc').hidden=true;$('tb').hidden=false;$('fn').hidden=true;$('fl').hidden=!l;$('fs').hidden=l;$('tl').className=l?'on':'';$('ts').className=l?'':'on';say('')}
+function tab(l){$('fc').hidden=true;$('tb').hidden=false;$('fn').hidden=true;$('frec').hidden=true;$('fl').hidden=!l;$('fs').hidden=l;$('tl').className=l?'on':'';$('ts').className=l?'':'on';say('')}
 function openAuth(l){tab(l);show('auth')}
 $('bg').onclick=function(){$('mn').classList.toggle('open')};
 $('mn').addEventListener('click',function(){$('mn').classList.remove('open')});
@@ -654,12 +668,20 @@ $('fl').onsubmit=async function(e){e.preventDefault();say('');var em='';
   try{em=await resolveLogin($('le').value);setS(await call('/auth/v1/token?grant_type=password',{m:'POST',auth:false,b:{email:em,password:$('lp').value}}));$('lp').value='';await enter()}
   catch(x){if(/not.confirmed/i.test((x.message||'')+(x.code||''))){PE=em;showCode('Ton email n’est pas encore confirmé. Touche « Renvoyer le code », puis entre le code reçu à '+em+'.')}else say(msg(x))}};
 document.querySelectorAll('[data-eye]').forEach(function(b){b.onclick=function(){var i=$(b.dataset.eye),v=i.type==='password';i.type=v?'text':'password';b.textContent=v?'Cacher':'Voir'}});
-$('fg').onclick=async function(){var em0=$('le').value.trim();if(!em0)return say('Écris d’abord ton email ou ton numéro dans le champ du haut, puis touche « Mot de passe oublié ? ».');
-  try{var em=await resolveLogin(em0);await call('/auth/v1/recover',{m:'POST',auth:false,b:{email:em}});say('Si un compte existe avec cet email, un lien pour choisir un nouveau mot de passe vient d’être envoyé.')}catch(x){say(msg(x))}};
+var QE='';
+function showRec(){$('tb').hidden=true;$('fl').hidden=true;$('fs').hidden=true;$('fn').hidden=true;$('fc').hidden=true;$('frec').hidden=false;$('qs2').hidden=true;$('qc').value='';say('')}
+$('fg').onclick=function(){var v=$('le').value.trim();showRec();$('qe').value=v};
+$('qb').onclick=function(){tab(true)};
+$('frec').onsubmit=async function(e){e.preventDefault();say('');
+  try{QE=await resolveLogin($('qe').value);await call('/auth/v1/recover',{m:'POST',auth:false,b:{email:QE}});$('qs2').hidden=false;$('fqm').textContent='Si un compte existe, un code vient d’être envoyé à '+QE+'. Copie-le dans ton mail, puis colle-le ci-dessous.';$('qc').focus()}catch(x){say(msg(x))}};
+$('qp').onclick=async function(){try{var t=await navigator.clipboard.readText(),m=(t||'').replace(/\s/g,'');if(/^\d{6,10}$/.test(m)){$('qc').value=m;$('qv').click()}else say('Aucun code trouvé dans le presse-papiers. Copie d’abord le code dans ton mail.')}catch(x){say('Ton téléphone refuse l’accès au presse-papiers. Appuie longuement dans le champ du code et choisis « Coller ».')}};
+$('qv').onclick=async function(){say('');var c=$('qc').value.replace(/\s/g,'');if(c.length<6)return say('Écris le code reçu par email.');
+  try{var j=await call('/auth/v1/verify',{m:'POST',auth:false,b:{type:'recovery',email:QE,token:c}});setS(j);showReset();say('Code validé. Choisis ton nouveau mot de passe.')}catch(x){say(/expired|invalid/i.test((x.message||'')+(x.code||''))?'Code incorrect ou expiré. Redemande un code.':msg(x))}};
+$('qr').onclick=async function(){say('');try{await call('/auth/v1/recover',{m:'POST',auth:false,b:{email:QE}});say('Nouveau code envoyé.')}catch(x){say(msg(x))}};
 function showCode(m){$('tb').hidden=true;$('fl').hidden=true;$('fs').hidden=true;$('fn').hidden=true;$('fc').hidden=false;$('fcm').textContent=m;say('')}
 function showReset(){$('fc').hidden=true;$('tb').hidden=true;$('fl').hidden=true;$('fs').hidden=true;$('fn').hidden=false;say('')}
-$('fn').onsubmit=async function(e){e.preventDefault();var pw=$('np').value;if(pw.length<8)return say('Mot de passe : 8 caractères minimum.');
-  try{await call('/auth/v1/user',{m:'PUT',b:{password:pw}});$('np').value='';toast('Mot de passe modifié.');await enter()}catch(x){say(msg(x))}};
+$('fn').onsubmit=async function(e){e.preventDefault();var pw=$('np').value;if(pw.length<8)return say('Mot de passe : 8 caractères minimum.');if(pw!==$('np2').value)return say('Les deux mots de passe ne sont pas identiques.');
+  try{await call('/auth/v1/user',{m:'PUT',b:{password:pw}});$('np').value='';$('np2').value='';toast('Mot de passe modifié.');await enter()}catch(x){say(msg(x))}};
 $('st').oninput=function(){this.value=this.value.replace(/\D/g,'')};
 $('fs').onsubmit=async function(e){e.preventDefault();say('');var pw=$('sp').value,loc=$('se').value.trim().toLowerCase().split('@')[0],ph=$('st').value.replace(/\D/g,'');
   if(!/^[a-z0-9.]{6,30}$/.test(loc))return say('Écris seulement le début de ton adresse Gmail, sans @gmail.com (6 caractères minimum).');
@@ -711,7 +733,7 @@ var swT=0;$('isw').addEventListener('scroll',function(){var w=this;cancelAnimati
 function view(n){if(OFF&&n!=='home'&&n!=='subs'&&n!=='news'&&n!=='info'&&n!=='help'){toast('Disponible quand tu as internet.');return}
   if(!S&&(n==='subs'||n==='avis')){openAuth(true);say('Crée un compte ou connecte-toi pour accéder à cette partie.');return}
   document.querySelectorAll('.v').forEach(function(x){x.hidden=x.id!=='v_'+n});$('dash').scrollTop=0;tabSet(n);
-  if(n==='subs')loadSubs();if(n==='info'){$('isw').scrollLeft=0;stepSet(0);loadInfo()}if(n==='help')drawHelp();if(n==='avis')loadMine();if(n==='adm')admView();if(n==='me')fillMe();if(n==='prop')loadProp();if(n==='pay')loadPay();if(n==='news')drawNews();if(n==='home'){drawNext();drawBell()}}
+  if(n==='subs')loadSubs();if(n==='info'){$('isw').scrollLeft=0;stepSet(0);loadInfo()}if(n==='help')drawHelp().catch(function(){});if(n==='avis')loadMine();if(n==='adm')admView();if(n==='me')fillMe();if(n==='prop')loadProp();if(n==='pay')loadPay();if(n==='news')drawNews();if(n==='home'){drawNext();drawBell()}}
 document.querySelectorAll('[data-v]').forEach(function(b){b.onclick=function(){view(b.dataset.v)}});
 $('lo').onclick=function(){if(!S){openAuth(true);return}call('/auth/v1/logout',{m:'POST',quiet:true}).catch(function(){});S=null;P=null;ls('ufr_s',null);try{caches.delete('ufr-state')}catch(e){}show(null)};
 function brOpts(c){var o='';if(c==='Licence 3')BR.L3.forEach(function(b){o+='<option>Licence 3 '+b+'</option>'});else['Master 1','Master 2'].forEach(function(m){BR.M.forEach(function(b){o+='<option>'+m+' '+b+'</option>'})});return o}
@@ -874,12 +896,16 @@ async function loadInfo(){var k=ls('ufr_info'),ok=k&&S&&k.uid===S.uid&&k.lv===P.
   if(!OFF){try{var r=await fetchInfo();drawInfoData(r.A,r.m);return}catch(x){}}
   if(ok){drawInfoData(k.A,k.m,k.t);return}
   $('pres').textContent=CFG.ufr_presentation||'La présentation de l’UFR sera bientôt ajoutée.';$('ann').textContent='Pas encore enregistré sur ce téléphone. Ouvre cette page une fois avec internet.';$('cal').textContent=''}
-function drawHelp(){var p=(CFG.support_phone||'').trim(),w=$('help');w.textContent='';
-  if(!p){w.appendChild(h('div','box','Le numéro sera bientôt ajouté.'));return}
-  var d=p.replace(/[^\d+]/g,''),b=h('div','box'),n=h('p',null,p);
-  b.appendChild(h('p',null,'Besoin d’aide ? Contacte directement le responsable.'));n.style.cssText='font-weight:800;font-size:22px;margin:10px 0 14px';b.appendChild(n);
-  var a=h('a','btn','Appeler'),wa=h('a','btn alt','WhatsApp');a.href='tel:'+d;wa.href='https://wa.me/'+d.replace(/\D/g,'');wa.target='_blank';wa.rel='noopener';wa.style.marginTop='8px';
-  b.appendChild(a);b.appendChild(document.createTextNode(' '));b.appendChild(wa);w.appendChild(b)}
+async function drawHelp(){var w=$('help');w.textContent='';var L=null;
+  try{L=await call('/rest/v1/help_contacts?select=*&order=created_at.asc',{quiet:true});ls('ufr_help',L)}catch(e){L=ls('ufr_help')}
+  L=(L||[]).filter(function(c){return lvm(c.level,P.level)});
+  if(!L.length){var p=(CFG.support_phone||'').trim();if(!p){w.appendChild(h('div','box','Les contacts seront bientôt ajoutés.'));return}L=[{name:'Responsable',domain:'',phone:p}]}
+  w.appendChild(h('p','note','Besoin d’aide ? Contacte directement la personne qui maîtrise la matière.'));
+  L.forEach(function(c){var d=(c.phone||'').replace(/[^\d+]/g,''),b=h('div','box'),n=h('p',null,c.name);n.style.cssText='font-weight:800;font-size:20px;margin:0';b.appendChild(n);
+    if(c.domain)b.appendChild(h('p',null,'Domaine : '+c.domain));
+    var t=h('p',null,c.phone);t.style.cssText='font-weight:800;font-size:18px;margin:8px 0 12px';b.appendChild(t);
+    var a=h('a','btn','Appeler'),wa=h('a','btn alt','WhatsApp');a.href='tel:'+d;wa.href='https://wa.me/'+(d.replace(/\D/g,'').length===10?'225':'')+d.replace(/\D/g,'');wa.target='_blank';wa.rel='noopener';wa.style.marginTop='8px';
+    b.appendChild(a);b.appendChild(document.createTextNode(' '));b.appendChild(wa);w.appendChild(b)})}
 $('fr').onsubmit=async function(e){e.preventDefault();var t=$('rt').value.trim();if(t.length<10)return toast('Écris au moins 10 caractères.');
   try{await call('/rest/v1/reviews',{m:'POST',prefer:'return=minimal',b:{user_id:S.uid,author_name:(P.full_name||'Étudiant').split(' ')[0],level:P.level,rating:+$('rr').value,body:t}});
     $('fr').reset();toast('Merci ! Ton avis sera relu avant d’être publié.');loadMine()}catch(x){toast(msg(x))}};
@@ -890,10 +916,16 @@ async function loadMine(){var w=$('mine');w.textContent='';
       var b=h('div','box');b.appendChild(h('b',null,new Array(r.rating+1).join('★')));b.appendChild(h('p',null,r.body));b.appendChild(h('small',null,st));w.appendChild(b)})
   }catch(x){w.textContent='Impossible de charger tes avis.'}}
 /* Abonnement */
-async function loadPay(){await loadAcc();var st=$('pst'),info=$('pinfo'),pn=(CFG.pay_number||'').trim();
+function fphone(n){var d=String(n||'').replace(/\D/g,'');return d.length===10?d.replace(/(\d\d)(?=\d)/g,'$1 '):n}
+function drawNums(){var w=$('pnums');w.textContent='';var L=[['Wave',CFG.pay_wave],['Orange Money',CFG.pay_orange],['MTN Money',CFG.pay_mtn],['Moov Money',CFG.pay_moov]].filter(function(x){return (x[1]||'').trim()});
+  if(!L.length)return;w.appendChild(h('p',null,'Envoie '+PRICE+' F au numéro de ton choix :'));
+  L.forEach(function(x){var r=h('div'),b=h('b',null,x[0]+' : '),n=h('span',null,fphone(x[1].trim())),c=h('button','sm','Copier');r.style.cssText='display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0';n.style.cssText='font-weight:800;font-size:18px';
+    c.type='button';c.onclick=function(){var d=x[1].replace(/\D/g,'');try{navigator.clipboard.writeText(d).then(function(){toast('Numéro copié.')},function(){toast(d)})}catch(e){toast(d)}};r.appendChild(b);r.appendChild(n);r.appendChild(c);w.appendChild(r)});
+  w.appendChild(h('p','note','Ensuite, envoie la capture d’écran du paiement dans le formulaire « J’ai payé » ci-dessous.'))}
+async function loadPay(){await loadAcc();drawNums();var st=$('pst'),info=$('pinfo'),pn=(CFG.pay_number||CFG.pay_wave||'').trim();
   st.textContent=!ACC?'Les abonnements ne sont pas encore ouverts.':accSub()?'✓ Abonnement actif'+(ACC.exp?' jusqu’au '+fdl(ACC.exp)+'.':'.'):'Pas encore abonné : '+Math.max(0,FREE-ACC.opened.length)+' sujet(s) gratuit(s) restant(s).';
-  info.textContent=(CFG.pay_info||'').trim()||(pn?'Envoie '+PRICE+' F par Wave, Orange Money, MTN Money ou Moov Money au '+pn+', puis remplis le formulaire ci-dessous avec la référence reçue par SMS.':'Les informations de paiement seront bientôt ajoutées.');
-  var wa=$('pwa');if(pn){wa.hidden=false;wa.href='https://wa.me/'+pn.replace(/\D/g,'')+'?text='+encodeURIComponent('Bonjour, j’ai payé mon abonnement UFR SEG. Voici ma preuve de paiement.')}else wa.hidden=true;
+  info.textContent=(CFG.pay_info||'').trim()||($('pnums').firstChild?'':(pn?'Envoie '+PRICE+' F par Wave, Orange Money, MTN Money ou Moov Money au '+pn+', puis envoie la capture d’écran dans le formulaire ci-dessous.':'Les informations de paiement seront bientôt ajoutées.'));info.hidden=!info.textContent;
+  var wa=$('pwa');if(false){wa.hidden=false;wa.href='https://wa.me/'+pn.replace(/\D/g,'')+'?text='+encodeURIComponent('Bonjour, j’ai payé mon abonnement UFR SEG. Voici ma preuve de paiement.')}else wa.hidden=true;
   var w=$('pls');w.textContent='';
   try{var R=await call('/rest/v1/payments?select=method,reference,status,created_at&user_id=eq.'+S.uid+'&order=created_at.desc&limit=10',{quiet:true});
     if(!R.length)w.appendChild(h('div','box','Aucun paiement envoyé.'));
@@ -920,8 +952,8 @@ function sl(t){return t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerC
 async function admView(){var c=$('atabs'),w=$('abody'),n=0;
   try{n=(await call('/rest/v1/submissions?select=id&status=eq.pending')).length}catch(e){}
   c.textContent='';
-  [['pro','À valider'+(n?' ('+n+')':'')],['lot','Import en lot'],['subs','Sujets'],['ann','Annonces'],['cal','Examens'],['pay','Paiements'],['set','Réglages'],['rev','Avis'],['usr','Inscrits']].forEach(function(t){var b=h('button',t[0]===AT?'on':'',t[1]);b.onclick=function(){AT=t[0];admView()};c.appendChild(b)});
-  loading(w);({pro:aPro,lot:aLot,subs:aSubs,ann:aAnn,cal:aCal,pay:aPay,set:aSet,rev:aRev,usr:aUsr})[AT]().catch(function(){w.textContent='Impossible de charger cette partie.'})}
+  [['pro','À valider'+(n?' ('+n+')':'')],['lot','Import en lot'],['subs','Sujets'],['ann','Annonces'],['cal','Examens'],['pay','Paiements'],['hlp','Aide'],['set','Réglages'],['rev','Avis'],['usr','Inscrits']].forEach(function(t){var b=h('button',t[0]===AT?'on':'',t[1]);b.onclick=function(){AT=t[0];admView()};c.appendChild(b)});
+  loading(w);({pro:aPro,lot:aLot,subs:aSubs,ann:aAnn,cal:aCal,pay:aPay,hlp:aHlp,set:aSet,rev:aRev,usr:aUsr})[AT]().catch(function(){w.textContent='Impossible de charger cette partie.'})}
 async function aPro(){var R=await call('/rest/v1/submissions?select=*&status=eq.pending&order=created_at.asc'),w=$('abody');w.textContent='';
   if(!R.length)w.appendChild(h('div','box','Aucun sujet en attente.'));
   R.forEach(function(r){var b=h('div','box');b.innerHTML='<b>'+esc(r.subject)+'</b><small>'+esc(r.level)+' · '+ay(r.year)+' · '+(r.kind==='corrige'?'corrigé':'sujet')+' · '+esc(r.author_name)+' · '+r.file_paths.length+' fichier(s) · '+fd(r.created_at)+'</small>';
@@ -965,6 +997,11 @@ async function aCal(){var R=await call('/rest/v1/exam_calendar?select=*&order=ex
   $('f3').onsubmit=async function(e){e.preventDefault();try{await call('/rest/v1/exam_calendar',{m:'POST',prefer:'return=minimal',b:{level:$('z1').value,title:$('z2').value.trim(),exam_date:$('z3').value,note:$('z4').value.trim()||null}});toast('Date ajoutée.');admView()}catch(x){toast(msg(x))}};
   rows('lst',R,function(r){return '<b>'+esc(r.title)+'</b><small>'+esc(r.level)+' · '+fd(r.exam_date)+(r.note?' · '+esc(r.note):'')+'</small>'},function(r){return call('/rest/v1/exam_calendar?id=eq.'+r.id,{m:'DELETE'})},
     function(r){var t=prompt('Matière ou épreuve',r.title);if(t===null)return false;var d=prompt('Date (AAAA-MM-JJ)',r.exam_date);if(d===null)return false;var n=prompt('Précision (facultatif)',r.note||'');if(n===null)return false;return call('/rest/v1/exam_calendar?id=eq.'+r.id,{m:'PATCH',prefer:'return=minimal',b:{title:t.trim(),exam_date:d.trim(),note:n.trim()||null}})})}
+async function aHlp(){var R=await call('/rest/v1/help_contacts?select=*&order=created_at.desc'),w=$('abody');
+  w.innerHTML='<form id="f9"><label>Nom</label><input id="h1" required><label>Domaine qu’il maîtrise (matière)</label><input id="h2" placeholder="Ex. : Comptabilité, Mathématiques"><label>Numéro (appel et WhatsApp)</label><input id="h3" type="tel" placeholder="07 00 00 00 00" required><label>Pour quel niveau ?</label><select id="h4"><option value="">Tous les niveaux</option>'+LO+'</select><button class="btn full">Ajouter <span>↗</span></button></form><h3>Contacts enregistrés</h3><div id="lst"></div>';
+  $('f9').onsubmit=async function(e){e.preventDefault();try{await call('/rest/v1/help_contacts',{m:'POST',prefer:'return=minimal',b:{name:$('h1').value.trim(),domain:$('h2').value.trim()||null,phone:$('h3').value.trim(),level:$('h4').value||null}});toast('Contact ajouté.');admView()}catch(x){toast(msg(x))}};
+  rows('lst',R,function(r){return '<b>'+esc(r.name)+'</b><small>'+esc(r.domain||'')+' · '+esc(r.phone)+' · '+esc(r.level||'Tous les niveaux')+'</small>'},function(r){return call('/rest/v1/help_contacts?id=eq.'+r.id,{m:'DELETE'})},
+    function(r){var n=prompt('Nom',r.name);if(n===null)return false;var d=prompt('Domaine',r.domain||'');if(d===null)return false;var t=prompt('Numéro',r.phone);if(t===null)return false;return call('/rest/v1/help_contacts?id=eq.'+r.id,{m:'PATCH',prefer:'return=minimal',b:{name:n.trim(),domain:d.trim()||null,phone:t.trim()}})})}
 async function aPay(){var w=$('abody');w.textContent='';
   var P1=await call('/rest/v1/payments?select=*&status=eq.pending&provider=eq.manual&order=created_at.asc'),L=[];try{L=await call('/rest/v1/rpc/admin_list_subs',{m:'POST',b:{}})}catch(e){}
   w.appendChild(h('h3',null,'Paiements à vérifier'));
@@ -982,10 +1019,10 @@ async function aPay(){var w=$('abody');w.textContent='';
     var ro=h('button','sm','Désabonner');ro.onclick=async function(){if(!confirm('Désabonner '+(r.full_name||'ce compte')+' ? Il perdra l’accès aux sujets et au téléchargement.'))return;try{await call('/rest/v1/rpc/admin_revoke_subscription',{m:'POST',b:{uid:r.user_id}});toast('Compte désabonné.');admView()}catch(x){toast(msg(x))}};
     d.appendChild(ro);b.appendChild(d);w.appendChild(b)})}
 async function aSet(){var w=$('abody');
-  w.innerHTML='<form id="f4"><label>Présentation de l’UFR</label><textarea id="s1" style="min-height:160px"></textarea><label>Numéro des cours de renforcement</label><input id="s2" type="tel" placeholder="+225 ..."><label>Numéro qui reçoit les paiements d’abonnement (Wave, Orange Money, MTN…)</label><input id="s3" type="tel" placeholder="+225 ..."><label>Message de paiement (facultatif, remplace le texte automatique)</label><textarea id="s4" style="min-height:90px"></textarea><button class="btn full">Enregistrer <span>↗</span></button></form>';
-  $('s1').value=CFG.ufr_presentation||'';$('s2').value=CFG.support_phone||'';$('s3').value=CFG.pay_number||'';$('s4').value=CFG.pay_info||'';
-  $('f4').onsubmit=async function(e){e.preventDefault();var a=$('s1').value.trim(),b=$('s2').value.trim(),c=$('s3').value.trim(),d=$('s4').value.trim();
-    try{await call('/rest/v1/settings?on_conflict=key',{m:'POST',prefer:'resolution=merge-duplicates,return=minimal',b:[{key:'ufr_presentation',value:a},{key:'support_phone',value:b},{key:'pay_number',value:c},{key:'pay_info',value:d}]});CFG.ufr_presentation=a;CFG.support_phone=b;CFG.pay_number=c;CFG.pay_info=d;ls('ufr_cfg',CFG);toast('Enregistré.')}catch(x){toast(msg(x))}}}
+  w.innerHTML='<form id="f4"><label>Présentation de l’UFR</label><textarea id="s1" style="min-height:160px"></textarea><label>Numéro des cours de renforcement</label><input id="s2" type="tel" placeholder="+225 ..."><label>Numéro Wave</label><input id="s3" type="tel" placeholder="07 ..."><label>Numéro Orange Money</label><input id="s5" type="tel" placeholder="07 ..."><label>Numéro MTN Money</label><input id="s6" type="tel" placeholder="05 ..."><label>Numéro Moov Money (facultatif)</label><input id="s7" type="tel" placeholder="01 ..."><label>Message de paiement (facultatif, remplace le texte automatique)</label><textarea id="s4" style="min-height:90px"></textarea><button class="btn full">Enregistrer <span>↗</span></button></form>';
+  $('s1').value=CFG.ufr_presentation||'';$('s2').value=CFG.support_phone||'';$('s3').value=CFG.pay_wave||CFG.pay_number||'';$('s5').value=CFG.pay_orange||'';$('s6').value=CFG.pay_mtn||'';$('s7').value=CFG.pay_moov||'';$('s4').value=CFG.pay_info||'';
+  $('f4').onsubmit=async function(e){e.preventDefault();var a=$('s1').value.trim(),b=$('s2').value.trim(),c=$('s3').value.trim(),d=$('s4').value.trim(),o=$('s5').value.trim(),mt=$('s6').value.trim(),mv=$('s7').value.trim();
+    try{await call('/rest/v1/settings?on_conflict=key',{m:'POST',prefer:'resolution=merge-duplicates,return=minimal',b:[{key:'ufr_presentation',value:a},{key:'support_phone',value:b},{key:'pay_number',value:c},{key:'pay_wave',value:c},{key:'pay_orange',value:o},{key:'pay_mtn',value:mt},{key:'pay_moov',value:mv},{key:'pay_info',value:d}]});CFG.ufr_presentation=a;CFG.support_phone=b;CFG.pay_number=c;CFG.pay_wave=c;CFG.pay_orange=o;CFG.pay_mtn=mt;CFG.pay_moov=mv;CFG.pay_info=d;ls('ufr_cfg',CFG);toast('Enregistré.')}catch(x){toast(msg(x))}}}
 async function aRev(){var R=await call('/rest/v1/reviews?select=*&order=created_at.desc&limit=100'),w=$('abody');w.textContent='';
   if(!R.length)w.appendChild(h('div','box','Aucun avis pour le moment.'));
   R.forEach(function(r){var b=h('div','box'),st=r.status==='pending'?'en attente':r.status==='rejected'?'refusé':r.featured?'affiché sur l’accueil':'validé';
