@@ -809,8 +809,9 @@ async function loadSubs(){loading($('subs'));
   if(!OFF){try{D.vid=await call('/rest/v1/videos?select=*&order=created_at.desc',{quiet:true});ls('ufr_vid',D.vid)}catch(e){D.vid=ls('ufr_vid')||[]}}else D.vid=[];
   drawSubs()}
 function ytOk(u){return /^https:\/\/(www\.|m\.)?(youtube\.com|youtu\.be)\//i.test(u||'')}
-function ytSearch(mat){var lv=String(P.level||'').replace(/\s+(EAAF|ETRH|MOSEF|CCF|MADO|GCF)$/,''),base=String(mat||'').replace(/\s*\(.*\)\s*$/,'').trim(),d=h('div');d.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin-top:10px';
-  [['▶ Exercices corrigés','exercices corrigés'],['▶ Cours et explications','cours explications']].forEach(function(x){var a=h('a','sm alt',x[0]);a.href='https://www.youtube.com/results?search_query='+encodeURIComponent((base+' '+lv+' '+x[1]).replace(/\s+/g,' ').trim());a.target='_blank';a.rel='noopener';a.style.textDecoration='none';d.appendChild(a)});return d}
+var FIL={EAAF:'Économie agricole et agro forestier',ETRH:'Économie du travail et ressources humaines',MOSEF:'Modernisation statistiques et financier',MADO:'management des organisations',CCF:'contrôle comptabilité financière',GCF:'gestion contrôle finance'};
+function ytSearch(mat){var fm=String(P.level||'').match(/\s+(EAAF|ETRH|MOSEF|CCF|MADO|GCF)$/),fil=fm?FIL[fm[1]]:'',lv=String(P.level||'').replace(/\s+(EAAF|ETRH|MOSEF|CCF|MADO|GCF)$/,''),base=String(mat||'').replace(/\s*\(.*\)\s*$/,'').trim(),d=h('div');d.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin-top:10px';
+  [['▶ Exercices corrigés','exercices corrigés'],['▶ Cours et explications','cours explications']].forEach(function(x){var a=h('a','sm alt',x[0]);a.href='https://www.youtube.com/results?search_query='+encodeURIComponent((base+' '+lv+' '+fil+' sciences économiques et gestion '+x[1]).replace(/\s+/g,' ').trim());a.target='_blank';a.rel='noopener';a.style.textDecoration='none';d.appendChild(a)});return d}
 function vnorm(x){return String(x||'').replace(/\s*\(.*\)\s*$/,'').trim().toLowerCase()}
 function vidBtns(L,withSubj){var d=h('div');d.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin-top:10px';
   L.forEach(function(v){var a=h('a','sm','▶ '+(withSubj&&v.subject?v.subject+' : ':'')+v.title);a.href=v.url;a.target='_blank';a.rel='noopener';a.style.textDecoration='none';d.appendChild(a)});return d}
