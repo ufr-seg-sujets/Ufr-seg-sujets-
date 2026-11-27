@@ -809,6 +809,8 @@ async function loadSubs(){loading($('subs'));
   if(!OFF){try{D.vid=await call('/rest/v1/videos?select=*&order=created_at.desc',{quiet:true});ls('ufr_vid',D.vid)}catch(e){D.vid=ls('ufr_vid')||[]}}else D.vid=[];
   drawSubs()}
 function ytOk(u){return /^https:\/\/(www\.|m\.)?(youtube\.com|youtu\.be)\//i.test(u||'')}
+function ytSearch(mat){var lv=String(P.level||'').replace(/\s+(EAAF|ETRH|MOSEF|CCF|MADO|GCF)$/,''),base=String(mat||'').replace(/\s*\(.*\)\s*$/,'').trim(),d=h('div');d.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin-top:10px';
+  [['▶ Exercices corrigés','exercices corrigés'],['▶ Cours et explications','cours explications']].forEach(function(x){var a=h('a','sm alt',x[0]);a.href='https://www.youtube.com/results?search_query='+encodeURIComponent((base+' '+lv+' '+x[1]).replace(/\s+/g,' ').trim());a.target='_blank';a.rel='noopener';a.style.textDecoration='none';d.appendChild(a)});return d}
 function vnorm(x){return String(x||'').replace(/\s*\(.*\)\s*$/,'').trim().toLowerCase()}
 function vidBtns(L,withSubj){var d=h('div');d.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin-top:10px';
   L.forEach(function(v){var a=h('a','sm','▶ '+(withSubj&&v.subject?v.subject+' : ':'')+v.title);a.href=v.url;a.target='_blank';a.rel='noopener';a.style.textDecoration='none';d.appendChild(a)});return d}
@@ -837,7 +839,10 @@ function drawSubs(){var c=$('chips');c.textContent='';c.appendChild(h('p','note'
   var n={};l.forEach(function(s){var k=s.subject+s.year+s.kind;n[k]=(n[k]||0)+1});
   var cs='',key='',bt;
   l.forEach(function(s){if(s.subject!==cs){cs=s.subject;key='';w.appendChild(h('h3',null,cs));
-      var nk=vnorm(cs);if(!shown[nk]){shown[nk]=1;var sv=V.filter(function(v){return vnorm(v.subject)===nk});if(sv.length){var vb2=h('div','box');vb2.appendChild(h('b',null,'▶ Vidéos de la matière'));vb2.appendChild(vidBtns(sv,false));w.appendChild(vb2)}}}
+      var nk=vnorm(cs);if(!shown[nk]){shown[nk]=1;var sv=V.filter(function(v){return vnorm(v.subject)===nk}),vb2=h('div','box');
+        if(sv.length){vb2.appendChild(h('b',null,'▶ Vidéos de la matière'));vb2.appendChild(vidBtns(sv,false))}
+        if(!OFF){vb2.appendChild(h('small',null,sv.length?'Chercher d’autres explications sur YouTube :':'Trouver des vidéos sur YouTube :'));vb2.appendChild(ytSearch(cs))}
+        if(vb2.firstChild)w.appendChild(vb2)}}
     var k=s.subject+s.year+s.kind;
     if(k!==key){key=k;var b=h('div','box');b.appendChild(h('b',null,ay(s.year)+(s.kind==='corrige'?' · corrigé':' · sujet')));bt=h('div');bt.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin-top:10px';b.appendChild(bt);w.appendChild(b)}
     var op=ACC&&ACC.opened.indexOf(dk(s))>=0,lk2=ACC&&!accSub()&&!op&&!saved[s.file_path]&&ACC.opened.length>=FREE;

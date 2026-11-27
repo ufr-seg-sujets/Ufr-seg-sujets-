@@ -1,4 +1,4 @@
-const C='ufr-v28';
+const C='ufr-v29';
 const U='https://ukrznseniopoyrrljjvv.supabase.co',K='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVrcnpuc2VuaW9wb3lycmxqanZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMwNjY0MzAsImV4cCI6MjEwODY0MjQzMH0.iEn8d6h5dlrud2sWm9dmhtpcIG_6meYTp8adc_tOFPw';
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(C).then(c=>c.addAll(['./','icon-192.png','icon-512.png','fondateur.jpg','manifest.webmanifest']).catch(()=>{})))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x.indexOf('ufr-v')===0&&x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
