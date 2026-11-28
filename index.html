@@ -1003,8 +1003,8 @@ function sl(t){return t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerC
 async function admView(){var c=$('atabs'),w=$('abody'),n=0;
   try{n=(await call('/rest/v1/submissions?select=id&status=eq.pending')).length}catch(e){}
   c.textContent='';
-  [['pro','À valider'+(n?' ('+n+')':'')],['lot','Import en lot'],['subs','Sujets'],['ann','Annonces'],['cal','Examens'],['pay','Paiements'],['hlp','Aide'],['vid','Vidéos'],['set','Réglages'],['rev','Avis'],['usr','Inscrits']].forEach(function(t){var b=h('button',t[0]===AT?'on':'',t[1]);b.onclick=function(){AT=t[0];admView()};c.appendChild(b)});
-  loading(w);({pro:aPro,lot:aLot,subs:aSubs,ann:aAnn,cal:aCal,pay:aPay,hlp:aHlp,vid:aVid,set:aSet,rev:aRev,usr:aUsr})[AT]().catch(function(){w.textContent='Impossible de charger cette partie.'})}
+  [['pro','À valider'+(n?' ('+n+')':'')],['lot','Import en lot'],['subs','Sujets'],['ann','Annonces'],['cal','Examens'],['pay','Paiements'],['hlp','Aide'],['sta','Stats'],['vid','Vidéos'],['set','Réglages'],['rev','Avis'],['usr','Inscrits']].forEach(function(t){var b=h('button',t[0]===AT?'on':'',t[1]);b.onclick=function(){AT=t[0];admView()};c.appendChild(b)});
+  loading(w);({pro:aPro,lot:aLot,subs:aSubs,ann:aAnn,cal:aCal,pay:aPay,hlp:aHlp,sta:aSta,vid:aVid,set:aSet,rev:aRev,usr:aUsr})[AT]().catch(function(){w.textContent='Impossible de charger cette partie.'})}
 async function aPro(){var R=await call('/rest/v1/submissions?select=*&status=eq.pending&order=created_at.asc'),w=$('abody');w.textContent='';
   if(!R.length)w.appendChild(h('div','box','Aucun sujet en attente.'));
   R.forEach(function(r){var b=h('div','box');b.innerHTML='<b>'+esc(r.subject)+'</b><small>'+esc(r.level)+' · '+ay(r.year)+' · '+(r.kind==='corrige'?'corrigé':'sujet')+' · '+esc(r.author_name)+' · '+r.file_paths.length+' fichier(s) · '+fd(r.created_at)+'</small>';
@@ -1062,6 +1062,13 @@ async function aVid(){var R=await call('/rest/v1/videos?select=*&order=created_a
     try{await call('/rest/v1/videos',{m:'POST',prefer:'return=minimal',b:{title:$('v1').value.trim(),url:u,subject:$('v3').value.trim()||null,level:$('v4').value||null}});toast('Vidéo ajoutée.');admView()}catch(x){toast(msg(x))}};
   rows('lst',R,function(r){return '<b>'+esc(r.title)+'</b><small>'+esc(r.subject||'Vidéo du niveau')+' · '+esc(r.level||'Tous les niveaux')+'</small>'},function(r){return call('/rest/v1/videos?id=eq.'+r.id,{m:'DELETE'})},
     function(r){var t=prompt('Titre',r.title);if(t===null)return false;var u=prompt('Lien YouTube',r.url);if(u===null)return false;if(!ytOk(u.trim())){toast('Lien YouTube invalide.');return false}var m=prompt('Matière (vide = niveau)',r.subject||'');if(m===null)return false;return call('/rest/v1/videos?id=eq.'+r.id,{m:'PATCH',prefer:'return=minimal',b:{title:t.trim(),url:u.trim(),subject:m.trim()||null}})})}
+async function aSta(){var w=$('abody');w.textContent='';loading(w);var d;try{d=await call('/rest/v1/rpc/admin_stats',{m:'POST',b:{}})}catch(x){fail(w,'Statistiques indisponibles (le fichier SQL a-t-il été lancé ?).',aSta);return}
+  w.textContent='';var tot=d.total||0,pc=tot?Math.round((d.subs||0)*100/tot):0,money=function(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,' ')+' F'};
+  var g=h('div');g.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:10px';
+  [['Inscrits',tot],['Abonnés actifs',d.subs||0],['Taux d’abonnement',pc+' %'],['Paiements à valider',d.pending||0],['Nouveaux (7 jours)',d.new7||0],['Nouveaux (30 jours)',d.new30||0]].forEach(function(x){var b=h('div','box'),v=h('b',null,String(x[1]));v.style.cssText='display:block;font-size:26px';b.appendChild(v);b.appendChild(h('small',null,x[0]));g.appendChild(b)});w.appendChild(g);
+  var rv=h('div','box');rv.appendChild(h('b',null,'Argent encaissé : '+money(d.revenue||0)));rv.appendChild(h('small',null,'Total des paiements validés.'));rv.style.marginTop='10px';w.appendChild(rv);
+  w.appendChild(h('h3',null,'Par niveau'));
+  (d.levels||[]).forEach(function(l){var b=h('div','box');b.appendChild(h('b',null,l.level||'Sans niveau'));b.appendChild(h('small',null,l.n+' inscrit'+(l.n>1?'s':'')+' · '+l.subs+' abonné'+(l.subs>1?'s':'')+' ('+(l.n?Math.round(l.subs*100/l.n):0)+' %)'));w.appendChild(b)})}
 async function aPay(){var w=$('abody');w.textContent='';
   var P1=await call('/rest/v1/payments?select=*&status=eq.pending&provider=eq.manual&order=created_at.asc'),L=[];try{L=await call('/rest/v1/rpc/admin_list_subs',{m:'POST',b:{}})}catch(e){}
   w.appendChild(h('h3',null,'Paiements à vérifier'));
